@@ -1,0 +1,1 @@
+export const API_GET_STOPS = 'http://localhost:3000/stops'
