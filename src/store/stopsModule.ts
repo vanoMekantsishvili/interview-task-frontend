@@ -31,7 +31,7 @@ const actions = {
           const { data } = await axios(API_GET_STOPS, { method: 'GET'}) 
           
           const bussesResult = parseData(data)
-          
+       
           commit('setBussData', bussesResult); 
           commit('setIsLoading', false);
         } catch (error) {
@@ -41,7 +41,7 @@ const actions = {
       },
 };
 
-const  getters = {
+const getters = {
     getIsLoading: (state: { isLoading: boolean }) => state.isLoading,
     getBusLines: (state: { busLines: Buss[] }) => state.busLines,
     getBusStopsByBusLine: (state: { busLines: Buss[] }) => 
@@ -55,11 +55,17 @@ const  getters = {
         const selectedBusLine = state.busLines.find(item => item.line === activeBusLine)
         
         const activeStop = selectedBusLine?.stops.find(stop => stop.name === stopName)
-        const activeTimes = activeStop?.times.sort((a, b) => a.order - b.order);
         
         return activeStop
     },
-    getBusStopNames: (state: { busStopNames: Buss[] }) => state.busStopNames,
+    getBusStopNames: (state: { busStopNames: string[] }) => (searchPattern?: string) =>  {
+       
+        if(!searchPattern) {
+            return state.busStopNames
+        }
+        const searchPatternLowerCase = searchPattern.toLocaleLowerCase()
+        return state.busStopNames.filter(stopName => stopName.toLocaleLowerCase().includes(searchPatternLowerCase))
+    },
 }
 
 const parseData = (data: Buss[]) => {
@@ -90,7 +96,7 @@ const parseData = (data: Buss[]) => {
 
     return {
         busLines: Object.values(result),
-        stopNames: Object.values(stops)
+        busStopNames: Object.values(stops)
     }
     
 }

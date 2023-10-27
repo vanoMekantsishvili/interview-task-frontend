@@ -22,11 +22,17 @@ export default {
       this.activeTab = tab;
       this.$router.push({ path: `/buss/${tab}` });
     },
+    async fetchBusStops() {
+      await this.$store.dispatch('fetchBusStops');
+    },
   },
   data() {
     return {
       activeTab: "bus-lines",
     };
+  },
+  mounted() {
+    this.fetchBusStops()
   },
 };
 </script>

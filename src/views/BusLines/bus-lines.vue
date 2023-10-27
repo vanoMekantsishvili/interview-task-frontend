@@ -63,9 +63,6 @@ import { mapGetters } from 'vuex';
 
 export default {
   methods: {
-    async fetchBusStops() {
-      await this.$store.dispatch('fetchBusStops');
-    },
     getBusStopsByBusLineHandler(busLine) {
       this.getBusStopsByBusLineResult = this.getBusStopsByBusLine(busLine);
     },
@@ -98,9 +95,6 @@ export default {
       getBusStopsByBusLineResult: null,
       getBusStopTimesResult: null
     };
-  },
-  mounted() {
-    this.fetchBusStops()
   },
 }
 </script>
